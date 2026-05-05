@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/di/service_locator.dart';
-import 'package:todo_list/data/repositories/auth_repository.dart';
-import 'package:todo_list/view_models/base_view_model.dart';
+import 'package:todo_list/domain/usecases/auth/login_usecase.dart';
+import 'package:todo_list/core/enums/view_state.dart';
 
 class LoginState {
   final ViewState viewState;
@@ -20,14 +20,14 @@ class LoginState {
   bool get isError => viewState == ViewState.error;
 }
 
-class LoginNotifier extends AutoDisposeNotifier<LoginState> {
+class LoginNotifier extends Notifier<LoginState> {
   @override
   LoginState build() => const LoginState();
 
   Future<bool> login(String email, String password) async {
     state = state.copyWith(viewState: ViewState.busy);
     try {
-      await locator<AuthRepository>().login(email, password);
+      await locator<LoginUseCase>()(email, password);
       state = state.copyWith(viewState: ViewState.idle);
       return true;
     } catch (e) {
@@ -37,5 +37,4 @@ class LoginNotifier extends AutoDisposeNotifier<LoginState> {
   }
 }
 
-final loginProvider =
-    NotifierProvider.autoDispose<LoginNotifier, LoginState>(LoginNotifier.new);
+final loginProvider = NotifierProvider<LoginNotifier, LoginState>(LoginNotifier.new);

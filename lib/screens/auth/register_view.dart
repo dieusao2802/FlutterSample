@@ -5,9 +5,10 @@ import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/core/utils/validation_utils.dart';
 import 'package:todo_list/model/gender.dart';
 import 'package:todo_list/style/text_styles.dart';
-import 'package:todo_list/view_models/auth/register_view_model.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
+
+import '../../provider/auth/register_provider.dart';
 
 class RegisterView extends ConsumerStatefulWidget {
   const RegisterView({super.key});
@@ -23,6 +24,13 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
   Gender? _selectedGender;
+
+  bool get _isButtonEnabled {
+    return _nameController.text.isNotEmpty &&
+        _emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _selectedGender != null;
+  }
 
   @override
   void dispose() {
@@ -41,24 +49,23 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
       final confirmPassword = _confirmPasswordController.text.trim();
 
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Passwords do not match')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
         return;
       }
 
-      final success = await ref
-          .read(registerProvider.notifier)
-          .registerUser(name: name, email: email, password: password);
+      final success = await ref.read(registerProvider.notifier).registerUser(
+        name: name,
+        email: email,
+        password: password,
+        gender: _selectedGender,
+      );
 
       if (!mounted) return;
 
       if (success) {
-        Navigator.pushReplacementNamed(context, AppRoutes.home);
+        Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Registration failed or Email already exists')),
-        );
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration failed or Email already exists')));
       }
     }
   }
@@ -132,11 +139,7 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                       return Expanded(
                         child: RadioListTile<Gender>(
                           value: gender,
-                          title: Text(
-                            gender.name,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: 14),
-                          ),
+                          title: Text(gender.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14)),
                           contentPadding: EdgeInsets.zero,
                           dense: true,
                           visualDensity: VisualDensity.compact,
@@ -147,10 +150,10 @@ class _RegisterViewState extends ConsumerState<RegisterView> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                if (registerState.isLoading)
+                if (registerState.isBusy)
                   const Center(child: CircularProgressIndicator())
                 else
-                  CustomButton(text: 'Register', onPressed: _handleRegister),
+                  CustomButton(text: 'Register', onPressed: _handleRegister, isEnable: _isButtonEnabled),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

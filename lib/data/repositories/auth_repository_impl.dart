@@ -16,9 +16,6 @@ class AuthRepositoryImpl implements IAuthRepository {
   Future<User> login(String email, String password) async {
     // Mock API — thay bằng real API khi backend sẵn sàng
     await Future.delayed(const Duration(seconds: 2));
-    if (email != 'test@gmail.com' || password != '123456') {
-      throw Exception('Email hoặc mật khẩu không đúng');
-    }
     var existing = await _userDatasource.getByEmail(email);
     if (existing == null) {
       existing = UserModel(name: 'User Test', email: email, password: password);
@@ -45,9 +42,16 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<void> logout() async {
-    await Future.wait([
-      _prefs.remove(_keyUserEmail),
-      _userDatasource.deleteAll(),
-    ]);
+    await Future.wait([_prefs.remove(_keyUserEmail), _userDatasource.deleteAll()]);
+  }
+
+  @override
+  Future<User?> getByEmail() async {
+    return _userDatasource.getByEmail(_prefs.getString(_keyUserEmail) ?? "");
+  }
+
+  @override
+  Future<User?> forgotPassword(String email) async {
+    return _userDatasource.getByEmail(email);
   }
 }

@@ -3,9 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/core/utils/validation_utils.dart';
-import 'package:todo_list/view_models/auth/login_view_model.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
+
+import '../../provider/auth/login_provider.dart';
+import '../../provider/auth/register_provider.dart';
 
 class LoginView extends ConsumerStatefulWidget {
   const LoginView({super.key});
@@ -95,9 +97,7 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   isEnable: _isButtonEnabled,
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      final success = await ref
-                          .read(loginProvider.notifier)
-                          .login(_emailController.text, _passwordController.text);
+                      final success = await ref.read(loginProvider.notifier).login(_emailController.text, _passwordController.text);
                       if (success && context.mounted) {
                         Navigator.pushReplacementNamed(context, AppRoutes.home);
                       }
@@ -110,7 +110,15 @@ class _LoginViewState extends ConsumerState<LoginView> {
                   children: [
                     const Text("Don't have an account?"),
                     TextButton(
-                      onPressed: () => Navigator.pushNamed(context, AppRoutes.register),
+                      onPressed: () async {
+                      await Navigator.pushNamed(context, AppRoutes.register);
+                      if (!context.mounted) return;
+                      final registeredData = ref.read(registerProvider).registeredData;
+                      if (registeredData != null) {
+                        _emailController.text = registeredData.email;
+                        _passwordController.text = registeredData.password;
+                      }
+                    },
                       child: const Text(
                         'Register',
                         style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),

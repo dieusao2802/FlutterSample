@@ -5,13 +5,31 @@ import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/provider/home/home_provider.dart';
 import 'package:todo_list/style/text_styles.dart';
-import 'package:todo_list/widgets/todo_list_wdt.dart';
 
-class HomeView extends ConsumerWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<HomeView> createState() => _HomeViewState();
+}
+
+class _HomeViewState extends ConsumerState<HomeView> with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('My Tasks', style: AppTextStyles.h2),
@@ -23,14 +41,23 @@ class HomeView extends ConsumerWidget {
             onPressed: () => _handleLogOut(context, ref),
           ),
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: AppColors.primary,
+          unselectedLabelColor: AppColors.textSecondary,
+          indicatorColor: AppColors.primary,
+          tabs: const [
+            Tab(text: 'Pending'),
+            Tab(text: 'Completed'),
+          ],
+        ),
       ),
-      body: const Padding(padding: EdgeInsets.all(16.0), child: TodolistWgt()),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          // Logic add todo
-        },
-        backgroundColor: AppColors.primary,
-        child: const Icon(Icons.add, color: AppColors.white),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          Center(child: Text('Pending Tasks', style: AppTextStyles.body)),
+          Center(child: Text('Completed Tasks', style: AppTextStyles.body)),
+        ],
       ),
     );
   }

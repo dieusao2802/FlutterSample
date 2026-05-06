@@ -9,6 +9,7 @@ class AuthRepositoryImpl implements IAuthRepository {
   final SharedPreferences _prefs;
 
   static const _keyUserEmail = 'user_email';
+  static const _keyLogin = 'user_login';
 
   AuthRepositoryImpl(this._userDatasource, this._prefs);
 
@@ -22,6 +23,7 @@ class AuthRepositoryImpl implements IAuthRepository {
       await _userDatasource.insert(existing);
     }
     await _prefs.setString(_keyUserEmail, email);
+    await _prefs.setBool(_keyLogin, true);
     return existing;
   }
 
@@ -35,6 +37,7 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<User?> getSessionUser() async {
+    if (_prefs.getBool(_keyLogin) ?? false) return null;
     final email = _prefs.getString(_keyUserEmail);
     if (email == null) return null;
     return _userDatasource.getByEmail(email);
@@ -42,7 +45,7 @@ class AuthRepositoryImpl implements IAuthRepository {
 
   @override
   Future<void> logout() async {
-    await Future.wait([_prefs.remove(_keyUserEmail), _userDatasource.deleteAll()]);
+    await Future.wait([_userDatasource.deleteAll(), _prefs.setBool(_keyLogin, false)]);
   }
 
   @override

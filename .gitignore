@@ -95,6 +95,10 @@ macos/Flutter/Flutter-Profile.xcconfig
 # Coverage
 coverage/
 
+# Generated code (build_runner: json_serializable, riverpod, freezed, pigeon, ...)
+**/*.g.dart
+**/*.freezed.dart
+
 # Sensitive / environment
 google-services.json
 GoogleService-Info.plist

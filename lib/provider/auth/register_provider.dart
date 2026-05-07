@@ -1,9 +1,12 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/core/di/service_locator.dart';
 import 'package:todo_list/core/enums/view_state.dart';
 import 'package:todo_list/domain/entities/user.dart';
 import 'package:todo_list/domain/usecases/auth/register_usecase.dart';
 import 'package:todo_list/model/gender.dart';
+import 'package:todo_list/provider/base/base_state.dart';
+
+part 'register_provider.g.dart';
 
 typedef RegisterFormData = ({
   String name,
@@ -12,22 +15,33 @@ typedef RegisterFormData = ({
   Gender? gender,
 });
 
-class RegisterState {
-  final ViewState viewState;
-  final String errorMessage;
-  final RegisterFormData? registeredData;
-
+class RegisterState extends BaseState {
   const RegisterState({
-    this.viewState = ViewState.idle,
-    this.errorMessage = '',
+    super.viewState = ViewState.idle,
+    super.errorMessage = '',
     this.registeredData,
   });
 
-  bool get isBusy => viewState == ViewState.busy;
-  bool get isError => viewState == ViewState.error;
+  final RegisterFormData? registeredData;
+
+  RegisterState copyWith({
+    ViewState? viewState,
+    String? errorMessage,
+    RegisterFormData? registeredData,
+  }) {
+    return RegisterState(
+      viewState: viewState ?? this.viewState,
+      errorMessage: errorMessage ?? this.errorMessage,
+      registeredData: registeredData ?? this.registeredData,
+    );
+  }
+
+  @override
+  List<Object?> get props => [viewState, errorMessage, registeredData];
 }
 
-class RegisterNotifier extends Notifier<RegisterState> {
+@riverpod
+class Register extends _$Register {
   @override
   RegisterState build() => const RegisterState();
 
@@ -37,19 +51,18 @@ class RegisterNotifier extends Notifier<RegisterState> {
     required String password,
     required Gender? gender,
   }) async {
-    state = const RegisterState(viewState: ViewState.busy);
+    state = state.copyWith(viewState: ViewState.busy, errorMessage: '');
     try {
       final user = User(name: name, email: email, password: password);
       await locator<RegisterUseCase>()(user);
-      state = RegisterState(
+      state = state.copyWith(
+        viewState: ViewState.idle,
         registeredData: (name: name, email: email, password: password, gender: gender),
       );
       return true;
     } catch (e) {
-      state = RegisterState(viewState: ViewState.error, errorMessage: e.toString());
+      state = state.copyWith(viewState: ViewState.error, errorMessage: e.toString());
       return false;
     }
   }
 }
-
-final registerProvider = NotifierProvider<RegisterNotifier, RegisterState>(RegisterNotifier.new);

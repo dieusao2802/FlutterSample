@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:todo_list/data/services/database_service.dart';
+import 'package:todo_list/data/local/database/todo_database.dart';
 import 'package:todo_list/model/todo.dart';
 
 class TodoDbService {
@@ -19,11 +19,17 @@ class TodoDbService {
   Future<List<Todo>> getTodos() async {
     final db = await _dbService.database;
     final List<Map<String, dynamic>> maps = await db.query('todos');
+    return List.generate(maps.length, (i) => Todo.fromMap(maps[i]));
+  }
 
-    // Sử dụng factory fromMap để convert danh sách Todo tự động
-    return List.generate(maps.length, (i) {
-      return Todo.fromMap(maps[i]);
-    });
+  Future<List<Todo>> getTodosByFolder(String folderId) async {
+    final db = await _dbService.database;
+    final List<Map<String, dynamic>> maps = await db.query(
+      'todos',
+      where: 'folderId = ?',
+      whereArgs: [folderId],
+    );
+    return maps.map((m) => Todo.fromMap(m)).toList();
   }
 
   Future<void> deleteTodo(String id) async {

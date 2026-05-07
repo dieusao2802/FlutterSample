@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../screens/auth/forgot_password_view.dart';
-import '../../screens/auth/login_view.dart';
-import '../../screens/auth/register_view.dart';
-import '../../screens/home/home_view.dart';
+import 'package:todo_list/screens/add/add_journal_page.dart';
+import 'package:todo_list/screens/add/folder/add_folder_page.dart';
+import '../../screens/auth/forgot_password_page.dart';
+import '../../screens/auth/login_page.dart';
+import '../../screens/auth/register_page.dart';
+import '../../screens/home/home_page.dart';
 import '../../screens/splash/splash_view.dart';
 
 class AppRoutes {
@@ -11,12 +13,16 @@ class AppRoutes {
   static const String register = '/register';
   static const String forgotPassword = '/forgot-password';
   static const String home = '/home';
+  static const String addTask = '/add-task';
+  static const String addFolder = '/add-folder';
 
   static Map<String, WidgetBuilder> get routes => {
-    splash: (context) => const SplashView(),
-    login: (context) => const LoginView(),
-    register: (context) => const RegisterView(),
-    forgotPassword: (context) => const ForgotPasswordView(),
-    home: (context) => const HomeView(),
+    splash: (context) => const SplashPage(),
+    login: (context) => const LoginPage(),
+    register: (context) => const RegisterPage(),
+    forgotPassword: (context) => const ForgotPasswordPage(),
+    home: (context) => const HomePage(),
+    addTask: (context) => const AddJournalPage(),
+    addFolder: (context) => const AddFolderPage(),
   };
 }

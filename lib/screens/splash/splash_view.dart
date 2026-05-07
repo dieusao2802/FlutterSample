@@ -6,14 +6,14 @@ import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/provider/splash_provider.dart';
 import 'package:todo_list/style/text_styles.dart';
 
-class SplashView extends ConsumerStatefulWidget {
-  const SplashView({super.key});
+class SplashPage extends ConsumerStatefulWidget {
+  const SplashPage({super.key});
 
   @override
-  ConsumerState<SplashView> createState() => _SplashViewState();
+  ConsumerState<SplashPage> createState() => _SplashViewState();
 }
 
-class _SplashViewState extends ConsumerState<SplashView> {
+class _SplashViewState extends ConsumerState<SplashPage> {
   @override
   void initState() {
     super.initState();

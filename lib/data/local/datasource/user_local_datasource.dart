@@ -1,5 +1,5 @@
 import 'package:sqflite/sqflite.dart';
-import 'package:todo_list/data/local/database/app_database.dart';
+import 'package:todo_list/data/local/database/user_database.dart';
 import 'package:todo_list/data/models/user_model.dart';
 
 class UserLocalDatasource {

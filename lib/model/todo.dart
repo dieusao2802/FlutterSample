@@ -4,22 +4,26 @@ class Todo extends Equatable {
   final String id;
   final String? title;
   final bool done;
+  final String? folderId;
 
   const Todo({
     required this.id,
     this.title,
     this.done = false,
+    this.folderId,
   });
 
   Todo copyWith({
     String? id,
     String? title,
     bool? done,
+    String? folderId,
   }) {
     return Todo(
       id: id ?? this.id,
       title: title ?? this.title,
       done: done ?? this.done,
+      folderId: folderId ?? this.folderId,
     );
   }
 
@@ -29,6 +33,7 @@ class Todo extends Equatable {
       'id': id,
       'title': title,
       'isCompleted': done ? 1 : 0,
+      'folderId': folderId,
     };
   }
 
@@ -38,9 +43,10 @@ class Todo extends Equatable {
       id: map['id'] ?? '',
       title: map['title'],
       done: map['isCompleted'] == 1,
+      folderId: map['folderId'],
     );
   }
 
   @override
-  List<Object?> get props => [id, title, done];
+  List<Object?> get props => [id, title, done, folderId];
 }

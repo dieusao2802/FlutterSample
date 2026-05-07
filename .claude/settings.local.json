@@ -7,7 +7,14 @@
       "WebFetch(domain:riverpod.dev)",
       "Bash(mv \"E:/Flutter/todo_list/lib/screens/splash/splash_view_model.dart\" \"E:/Flutter/todo_list/lib/screens/splash/splash_provider.dart\")",
       "Bash(mv \"E:/Flutter/todo_list/lib/view_models/auth/register_view_model.dart\" \"E:/Flutter/todo_list/lib/view_models/auth/register_provider.dart\")",
-      "Bash(flutter pub *)"
+      "Bash(flutter pub *)",
+      "mcp__figma__get_design_context",
+      "mcp__figma__get_metadata",
+      "mcp__figma__use_figma",
+      "mcp__figma__search_design_system",
+      "Skill(update-config)",
+      "Bash(grep \"\\\\.g\\\\.dart$\")",
+      "Bash(grep -E \"\\\\.\\(freezed|gr|config\\)\\\\.dart$\")"
     ]
   }
 }

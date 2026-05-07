@@ -1,12 +1,13 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:todo_list/data/local/database/app_database.dart';
+import 'package:todo_list/data/local/database/user_database.dart';
 import 'package:todo_list/data/local/datasource/user_local_datasource.dart';
 import 'package:todo_list/data/repositories/auth_repository_impl.dart';
 import 'package:todo_list/data/services/api_service.dart';
-import 'package:todo_list/data/services/database_service.dart';
+import 'package:todo_list/data/local/database/todo_database.dart';
 import 'package:todo_list/data/services/local_notification_service.dart';
+import 'package:todo_list/data/services/folder_db_service.dart';
 import 'package:todo_list/data/services/todo_db_service.dart';
 import 'package:todo_list/domain/repositories/i_auth_repository.dart';
 import 'package:todo_list/domain/services/i_notification_service.dart';
@@ -28,6 +29,7 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => AppDatabase());
   locator.registerLazySingleton(() => DatabaseService());
   locator.registerLazySingleton(() => TodoDbService(locator<DatabaseService>()));
+  locator.registerLazySingleton(() => FolderDbService(locator<DatabaseService>()));
   locator.registerLazySingleton(() => ApiService(locator()));
 
   // Datasources

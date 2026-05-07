@@ -1,13 +1,16 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/core/di/service_locator.dart';
 import 'package:todo_list/core/enums/view_state.dart';
 import 'package:todo_list/domain/usecases/auth/forgot_password_usecase.dart';
+import 'package:todo_list/provider/base/base_state.dart';
 
-class ForgotState {
-  final ViewState viewState;
-  final String errorMessage;
+part 'forgot_provider.g.dart';
 
-  const ForgotState({this.viewState = ViewState.idle, this.errorMessage = ''});
+class ForgotState extends BaseState {
+  const ForgotState({
+    super.viewState = ViewState.idle,
+    super.errorMessage = '',
+  });
 
   ForgotState copyWith({ViewState? viewState, String? errorMessage}) {
     return ForgotState(
@@ -16,11 +19,12 @@ class ForgotState {
     );
   }
 
-  bool get isBusy => viewState == ViewState.busy;
-  bool get isError => viewState == ViewState.error;
+  @override
+  List<Object?> get props => [viewState, errorMessage];
 }
 
-class ForgotNotifier extends Notifier<ForgotState> {
+@riverpod
+class Forgot extends _$Forgot {
   @override
   ForgotState build() => const ForgotState();
 
@@ -43,5 +47,3 @@ class ForgotNotifier extends Notifier<ForgotState> {
     }
   }
 }
-
-final forgotProvider = NotifierProvider<ForgotNotifier, ForgotState>(ForgotNotifier.new);

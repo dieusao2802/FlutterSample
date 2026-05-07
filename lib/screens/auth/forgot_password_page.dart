@@ -8,14 +8,14 @@ import 'package:todo_list/widgets/custom_text_field.dart';
 
 import '../../core/utils/validation_utils.dart';
 
-class ForgotPasswordView extends ConsumerStatefulWidget {
-  const ForgotPasswordView({super.key});
+class ForgotPasswordPage extends ConsumerStatefulWidget {
+  const ForgotPasswordPage({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _ForgotViewState();
 }
 
-class _ForgotViewState extends ConsumerState<ForgotPasswordView> {
+class _ForgotViewState extends ConsumerState<ForgotPasswordPage> {
   final _emailController = TextEditingController();
 
   void _onInputChanged() {

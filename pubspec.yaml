@@ -16,6 +16,7 @@ dependencies:
 
   # --- STATE MANAGEMENT & DI ---
   flutter_riverpod: ^3.3.1
+  riverpod_annotation: ^4.0.2
   get_it: ^9.2.1
 
   # --- LOCAL STORAGE ---
@@ -26,9 +27,8 @@ dependencies:
   # --- UTILITIES ---
   intl: ^0.20.2
   equatable: ^2.0.8
-  logger: ^2.7.0
   json_annotation: ^4.11.0
-  pigeon: ^26.3.4 # CHUYỂN SANG ĐÂY để dùng được trong thư mục lib/
+  pigeon: ^26.3.2
 
   # --- NOTIFICATIONS ---
   flutter_local_notifications: ^21.0.0
@@ -45,8 +45,9 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
   # --- CODE GENERATION ---
-  build_runner: ^2.15.0
-  json_serializable: ^6.13.2
+  build_runner: ^2.4.15
+  riverpod_generator: ^4.0.2
+  json_serializable: ^6.11.0
 
 flutter_native_splash:
   color: "#4CAF50"

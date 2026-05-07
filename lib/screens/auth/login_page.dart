@@ -9,14 +9,14 @@ import 'package:todo_list/widgets/custom_text_field.dart';
 import '../../provider/auth/login_provider.dart';
 import '../../provider/auth/register_provider.dart';
 
-class LoginView extends ConsumerStatefulWidget {
-  const LoginView({super.key});
+class LoginPage extends ConsumerStatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  ConsumerState<LoginView> createState() => _LoginViewState();
+  ConsumerState<LoginPage> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends ConsumerState<LoginView> {
+class _LoginViewState extends ConsumerState<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();

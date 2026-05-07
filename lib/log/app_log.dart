@@ -1,61 +1,65 @@
-import 'dart:developer' as dev;
+import 'package:flutter/foundation.dart';
+
+import 'native_log_channel.dart';
 
 class AppLog {
-  static const String _tag = 'APP_LOG';
-
-  /// In log thông tin bình thường
-  static void info(String message) {
-    _printLog('INFO', message);
-  }
-
-  /// In log cảnh báo (Warning)
-  static void warning(String message) {
-    _printLog('WARNING', message);
-  }
-
-  /// In log lỗi với message tùy chỉnh
-  static void error(String message, [Object? error, StackTrace? stackTrace]) {
-    _printLog('ERROR', message, error, stackTrace);
-  }
-
-  /// Log trực tiếp đối tượng Exception hoặc Error (Không bắt buộc String message)
-  static void exception(Object error, [StackTrace? stackTrace, String? message]) {
-    _printLog('EXCEPTION', message ?? error.toString(), error, stackTrace);
-  }
-
-  /// Log lỗi nghiêm trọng hoặc Exception ném ra từ khối catch (Fatal)
-  static void fatal(Object error, [StackTrace? stackTrace, String? message]) {
-    _printLog('FATAL', message ?? error.toString(), error, stackTrace);
-  }
-
-  static void _printLog(String level, String message, [Object? error, StackTrace? stackTrace]) {
-    // Lấy thông tin nơi gọi hàm (Caller)
-    final stack = StackTrace.current.toString().split('\n');
-    String caller = 'Unknown';
-    
-    // stack[2] thường là nơi gọi hàm AppLog.info/error/exception...
-    if (stack.length > 2) {
-      caller = _formatStackLine(stack[2]);
+  static void info(dynamic message) {
+    if (kDebugMode) {
+      NativeLogChannel.log('i', "💡 $message --- ${_getCallerInfo()}");
     }
-
-    final String fullMessage = '[$level] [$caller] -> $message';
-
-    dev.log(
-      fullMessage,
-      name: _tag,
-      error: error,
-      stackTrace: stackTrace,
-    );
   }
 
-  // Rút gọn dòng StackTrace để dễ nhìn (chỉ lấy tên file và dòng)
-  static String _formatStackLine(String line) {
-    // Ví dụ: #2      _MyHomePageState.initState (package:splash_sample/main.dart:60:18)
-    final RegExp regExp = RegExp(r'package:.*\.dart:\d+:\d+');
-    final match = regExp.firstMatch(line);
-    if (match != null) {
-      return match.group(0) ?? line;
+  static void debug(dynamic message) {
+    if (kDebugMode) {
+      NativeLogChannel.log('d', "🔍 $message --- ${_getCallerInfo()}");
     }
-    return line;
   }
+
+  static void warning(dynamic message) {
+    if (kDebugMode) {
+      NativeLogChannel.log('w', "⚠️ $message --- ${_getCallerInfo()}");
+    }
+  }
+
+  static void error(dynamic message, [dynamic error, StackTrace? stackTrace]) {
+    if (kDebugMode) {
+      final String msg =
+          "⛔ $message${error != null ? ' | Error: $error' : ''} --- ${_getCallerInfo()}";
+      final String full = stackTrace != null ? "$msg\n$stackTrace" : msg;
+      NativeLogChannel.log('e', full);
+    }
+  }
+
+  static void exception(dynamic error, [StackTrace? stackTrace, String? message]) {
+    AppLog.error(message ?? 'Exception occurred', error, stackTrace);
+  }
+
+  static void fatal(dynamic error, [StackTrace? stackTrace, String? message]) {
+    if (kDebugMode) {
+      final String msg = "💀 ${message ?? 'Fatal error'} | $error --- ${_getCallerInfo()}";
+      final String full = stackTrace != null ? "$msg\n$stackTrace" : msg;
+      NativeLogChannel.log('f', full);
+    }
+  }
+
+  static String _getCallerInfo() {
+    try {
+      final stackTrace = StackTrace.current.toString().split('\n');
+      if (stackTrace.length > 2) {
+        final line = stackTrace[2];
+        final match = RegExp(r'#\d+\s+(.+)\s+\((.+)\)').firstMatch(line);
+        if (match != null) {
+          final methodName = match.group(1);
+          final fileInfo = match.group(2);
+          return "$methodName($fileInfo)";
+        }
+      }
+    } catch (_) {}
+    return "";
+  }
+
+  // Alias ngắn gọn giống Android
+  static void d(dynamic m) => debug(m);
+  static void i(dynamic m) => info(m);
+  static void e(dynamic m, [dynamic err, StackTrace? st]) => error(m, err, st);
 }

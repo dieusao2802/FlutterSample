@@ -10,14 +10,14 @@ import 'package:todo_list/widgets/custom_text_field.dart';
 
 import '../../provider/auth/register_provider.dart';
 
-class RegisterView extends ConsumerStatefulWidget {
-  const RegisterView({super.key});
+class RegisterPage extends ConsumerStatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  ConsumerState<RegisterView> createState() => _RegisterViewState();
+  ConsumerState<RegisterPage> createState() => _RegisterViewState();
 }
 
-class _RegisterViewState extends ConsumerState<RegisterView> {
+class _RegisterViewState extends ConsumerState<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();

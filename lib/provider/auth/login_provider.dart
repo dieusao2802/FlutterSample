@@ -1,13 +1,16 @@
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:todo_list/core/di/service_locator.dart';
-import 'package:todo_list/domain/usecases/auth/login_usecase.dart';
 import 'package:todo_list/core/enums/view_state.dart';
+import 'package:todo_list/domain/usecases/auth/login_usecase.dart';
+import 'package:todo_list/provider/base/base_state.dart';
 
-class LoginState {
-  final ViewState viewState;
-  final String errorMessage;
+part 'login_provider.g.dart';
 
-  const LoginState({this.viewState = ViewState.idle, this.errorMessage = ''});
+class LoginState extends BaseState {
+  const LoginState({
+    super.viewState = ViewState.idle,
+    super.errorMessage = '',
+  });
 
   LoginState copyWith({ViewState? viewState, String? errorMessage}) {
     return LoginState(
@@ -16,16 +19,17 @@ class LoginState {
     );
   }
 
-  bool get isBusy => viewState == ViewState.busy;
-  bool get isError => viewState == ViewState.error;
+  @override
+  List<Object?> get props => [viewState, errorMessage];
 }
 
-class LoginNotifier extends Notifier<LoginState> {
+@riverpod
+class Login extends _$Login {
   @override
   LoginState build() => const LoginState();
 
   Future<bool> login(String email, String password) async {
-    state = state.copyWith(viewState: ViewState.busy);
+    state = state.copyWith(viewState: ViewState.busy, errorMessage: '');
     try {
       await locator<LoginUseCase>()(email, password);
       state = state.copyWith(viewState: ViewState.idle);
@@ -36,5 +40,3 @@ class LoginNotifier extends Notifier<LoginState> {
     }
   }
 }
-
-final loginProvider = NotifierProvider<LoginNotifier, LoginState>(LoginNotifier.new);

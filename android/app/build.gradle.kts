@@ -7,8 +7,8 @@ plugins {
 
 android {
     namespace = "com.tohsoft.todo_list"
-    compileSdk = 34
-    ndkVersion = "25.1.8937393"
+    compileSdk = 36
+    ndkVersion = "26.1.10909125"
 
     compileOptions {
         isCoreLibraryDesugaringEnabled = true
@@ -23,7 +23,7 @@ android {
     defaultConfig {
         applicationId = "com.tohsoft.todo_list"
         minSdk = flutter.minSdkVersion
-        targetSdk = 34
+        targetSdk = 36
         versionCode = 1
         versionName = "1.0.0"
     }

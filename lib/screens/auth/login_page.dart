@@ -82,14 +82,20 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => Navigator.pushNamed(context, AppRoutes.forgotPassword),
-                    child: const Text('Forgot Password?', style: TextStyle(color: AppColors.primary)),
+                    child: const Text(
+                      'Forgot Password?',
+                      style: TextStyle(color: AppColors.primary),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 32),
                 if (loginState.isError)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 16),
-                    child: Text(loginState.errorMessage, style: const TextStyle(color: AppColors.error)),
+                    child: Text(
+                      loginState.errorMessage,
+                      style: const TextStyle(color: AppColors.error),
+                    ),
                   ),
                 CustomButton(
                   text: 'Login',
@@ -97,7 +103,9 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                   isEnable: _isButtonEnabled,
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      final success = await ref.read(loginProvider.notifier).login(_emailController.text, _passwordController.text);
+                      final success = await ref
+                          .read(loginProvider.notifier)
+                          .login(_emailController.text, _passwordController.text);
                       if (success && context.mounted) {
                         Navigator.pushReplacementNamed(context, AppRoutes.home);
                       }
@@ -111,20 +119,33 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                     const Text("Don't have an account?"),
                     TextButton(
                       onPressed: () async {
-                      await Navigator.pushNamed(context, AppRoutes.register);
-                      if (!context.mounted) return;
-                      final registeredData = ref.read(registerProvider).registeredData;
-                      if (registeredData != null) {
-                        _emailController.text = registeredData.email;
-                        _passwordController.text = registeredData.password;
-                      }
-                    },
+                        await Navigator.pushNamed(context, AppRoutes.register);
+                        if (!context.mounted) return;
+                        final registeredData = ref.read(registerProvider).registeredData;
+                        if (registeredData != null) {
+                          _emailController.text = registeredData.email;
+                          _passwordController.text = registeredData.password;
+                        }
+                      },
                       child: const Text(
                         'Register',
                         style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: 8),
+                Center(
+                  child: InkWell(
+                    onTap: () => Navigator.pushNamed(context, AppRoutes.home),
+                    child: const Text(
+                      'Login without Account',
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

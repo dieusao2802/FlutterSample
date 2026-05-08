@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/enums/folder_color.dart';
 import 'package:todo_list/core/enums/view_state.dart';
-import 'package:todo_list/provider/add/add_folder_provider.dart';
+import 'package:todo_list/provider/folder/add_folder.dart';
 
 import '../widgets/add_journal_app_bar.dart';
 

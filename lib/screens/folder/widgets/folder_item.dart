@@ -5,6 +5,8 @@ class FolderItem extends StatelessWidget {
   final String title;
   final int journals;
   final int todos;
+  final void Function(String) onEdit;
+  final VoidCallback onDelete;
 
   const FolderItem({
     super.key,
@@ -12,6 +14,8 @@ class FolderItem extends StatelessWidget {
     required this.title,
     required this.journals,
     required this.todos,
+    required this.onEdit,
+    required this.onDelete,
   });
 
   @override
@@ -79,11 +83,11 @@ class FolderItem extends StatelessWidget {
             ),
             IconButton(
               icon: const Icon(Icons.edit_outlined, size: 20, color: Colors.grey),
-              onPressed: () {},
+              onPressed: () => onEdit(title),
             ),
             IconButton(
               icon: const Icon(Icons.delete_outline_rounded, size: 20, color: Colors.grey),
-              onPressed: () {},
+              onPressed: onDelete,
             ),
             const SizedBox(width: 5),
           ],

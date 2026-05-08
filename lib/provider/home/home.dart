@@ -5,13 +5,16 @@ import 'package:todo_list/domain/usecases/auth/logout_usecase.dart';
 import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/provider/base/base_state.dart';
 
-part 'home_provider.g.dart';
+part 'home.g.dart';
 
 class HomeState extends BaseState {
   const HomeState({super.viewState = ViewState.idle, super.errorMessage = ''});
 
   HomeState copyWith({ViewState? viewState, String? errorMessage}) {
-    return HomeState(viewState: viewState ?? this.viewState, errorMessage: errorMessage ?? this.errorMessage);
+    return HomeState(
+      viewState: viewState ?? this.viewState,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
   }
 
   @override

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
-import 'package:todo_list/provider/auth/forgot_provider.dart';
+import 'package:todo_list/provider/auth/forgot_password.dart';
 import 'package:todo_list/style/text_styles.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
@@ -37,7 +37,7 @@ class _ForgotViewState extends ConsumerState<ForgotPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(forgotProvider);
+    final state = ref.watch(forgotPasswordProvider);
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -57,7 +57,10 @@ class _ForgotViewState extends ConsumerState<ForgotPasswordPage> {
             children: [
               const Text('Reset Password', style: AppTextStyles.h1),
               const SizedBox(height: 8),
-              const Text('Enter your email address and we will send you instructions to reset your password.', style: AppTextStyles.bodySmall),
+              const Text(
+                'Enter your email address and we will send you instructions to reset your password.',
+                style: AppTextStyles.bodySmall,
+              ),
               const SizedBox(height: 40),
               CustomTextField(
                 label: 'Email',
@@ -66,7 +69,10 @@ class _ForgotViewState extends ConsumerState<ForgotPasswordPage> {
                 keyboardType: TextInputType.emailAddress,
                 validator: ValidationUtils.validateEmail,
               ),
-              if (state.isError) ...[const SizedBox(height: 12), Text(state.errorMessage, style: const TextStyle(color: Colors.red, fontSize: 13))],
+              if (state.isError) ...[
+                const SizedBox(height: 12),
+                Text(state.errorMessage, style: const TextStyle(color: Colors.red, fontSize: 13)),
+              ],
               const SizedBox(height: 40),
               CustomButton(
                 text: 'Send Instructions',
@@ -85,11 +91,13 @@ class _ForgotViewState extends ConsumerState<ForgotPasswordPage> {
     final email = _emailController.text.trim();
     if (email.isEmpty) return;
 
-    final success = await ref.read(forgotProvider.notifier).sendResetNotification(email);
+    final success = await ref.read(forgotPasswordProvider.notifier).sendResetNotification(email);
     if (!mounted) return;
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Thông tin tài khoản đã được gửi qua thông báo')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Thông tin tài khoản đã được gửi qua thông báo')),
+      );
     }
   }
 }

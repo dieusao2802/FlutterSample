@@ -6,8 +6,9 @@ import 'package:todo_list/data/services/folder_db_service.dart';
 import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/model/folder.dart';
 import 'package:todo_list/provider/base/base_state.dart';
+import 'package:todo_list/provider/folder/folders.dart';
 
-part 'add_folder_provider.g.dart';
+part 'add_folder.g.dart';
 
 class AddFolderState extends BaseState {
   const AddFolderState({
@@ -70,13 +71,7 @@ class AddFolder extends _$AddFolder {
         color: state.folderColor,
       );
       await locator<FolderDbService>().insertFolder(folder);
-
-      // Log danh sách để kiểm tra dữ liệu
-      final allFolders = await locator<FolderDbService>().getFolders();
-      AppLog.info('DB SUCCESS: Có ${allFolders.length} folders');
-      for (var f in allFolders) {
-        AppLog.debug('Folder: ${f.name} (ID: ${f.id})');
-      }
+      ref.invalidate(foldersProvider);
 
       state = const AddFolderState();
       return true;

@@ -1,11 +1,9 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/log/app_log.dart';
-import 'package:todo_list/provider/home/home_provider.dart';
+import 'package:todo_list/provider/home/home.dart';
 import 'package:todo_list/screens/home/widgets/home_app_bar.dart';
 import 'package:todo_list/screens/home/widgets/home_bottom_nav.dart';
 import 'package:todo_list/screens/home/widgets/home_date_selector.dart';
@@ -18,6 +16,7 @@ class HomePage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentIndex = ref.watch(bottomNavIndexProvider);
+    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
 
     return PopScope(
       canPop: currentIndex == 0,
@@ -30,22 +29,23 @@ class HomePage extends ConsumerWidget {
       child: Scaffold(
         backgroundColor: const Color(0xFFFBFBFF),
         body: SafeArea(child: _buildBody(currentIndex)),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            AppLog.error("ldaldlasdl: ", currentIndex);
-            if (currentIndex == 0) {
-              Navigator.pushNamed(context, AppRoutes.addTask);
-            } else {
-              Navigator.pushNamed(context, AppRoutes.addFolder);
-            }
-          },
-          backgroundColor: AppColors.primary,
-          elevation: 4,
-          shape: const CircleBorder(),
-          child: const Icon(Icons.add, color: Colors.white, size: 32),
-        ),
+        floatingActionButton: isKeyboardVisible
+            ? null
+            : FloatingActionButton(
+                onPressed: () {
+                  if (currentIndex == 0) {
+                    Navigator.pushNamed(context, AppRoutes.addTask);
+                  } else {
+                    Navigator.pushNamed(context, AppRoutes.addFolder);
+                  }
+                },
+                backgroundColor: AppColors.primary,
+                elevation: 4,
+                shape: const CircleBorder(),
+                child: const Icon(Icons.add, color: Colors.white, size: 32),
+              ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        bottomNavigationBar: const HomeBottomNav(),
+        bottomNavigationBar: isKeyboardVisible ? null : const HomeBottomNav(),
       ),
     );
   }
@@ -64,7 +64,7 @@ class HomePage extends ConsumerWidget {
           ],
         );
       case 1:
-        return const FolderPage();
+        return const FoldersPage();
       case 2:
         return const Center(child: Text("List Screen"));
       case 3:

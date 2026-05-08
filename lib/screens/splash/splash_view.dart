@@ -3,7 +3,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/routes/app_routes.dart';
-import 'package:todo_list/provider/splash_provider.dart';
+import 'package:todo_list/provider/splash.dart';
 import 'package:todo_list/style/text_styles.dart';
 
 class SplashPage extends ConsumerStatefulWidget {

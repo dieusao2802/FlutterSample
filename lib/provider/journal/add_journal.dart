@@ -4,7 +4,7 @@ import 'package:todo_list/core/enums/view_state.dart';
 import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/provider/base/base_state.dart';
 
-part 'add_journal_provider.g.dart';
+part 'add_journal.g.dart';
 
 class AddJournalState extends BaseState {
   final String title;

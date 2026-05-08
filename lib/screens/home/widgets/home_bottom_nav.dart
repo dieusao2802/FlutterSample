@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
-import 'package:todo_list/provider/home/home_provider.dart';
+import 'package:todo_list/provider/home/home.dart';
 
 class HomeBottomNav extends ConsumerWidget {
   const HomeBottomNav({super.key});
@@ -31,11 +31,7 @@ class HomeBottomNav extends ConsumerWidget {
   Widget _buildNavItem(WidgetRef ref, int index, IconData icon, int currentIndex) {
     final isSelected = currentIndex == index;
     return IconButton(
-      icon: Icon(
-        icon,
-        color: isSelected ? AppColors.primary : Colors.grey.shade400,
-        size: 24,
-      ),
+      icon: Icon(icon, color: isSelected ? AppColors.primary : Colors.grey.shade400, size: 24),
       onPressed: () {
         ref.read(bottomNavIndexProvider.notifier).setIndex(index);
       },

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
-import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/core/utils/validation_utils.dart';
 import 'package:todo_list/model/gender.dart';
 import 'package:todo_list/style/text_styles.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
 
-import '../../provider/auth/register_provider.dart';
+import '../../provider/auth/register.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -49,23 +48,24 @@ class _RegisterViewState extends ConsumerState<RegisterPage> {
       final confirmPassword = _confirmPasswordController.text.trim();
 
       if (password != confirmPassword) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Passwords do not match')));
         return;
       }
 
-      final success = await ref.read(registerProvider.notifier).registerUser(
-        name: name,
-        email: email,
-        password: password,
-        gender: _selectedGender,
-      );
+      final success = await ref
+          .read(registerProvider.notifier)
+          .registerUser(name: name, email: email, password: password, gender: _selectedGender);
 
       if (!mounted) return;
 
       if (success) {
         Navigator.pop(context);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Registration failed or Email already exists')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Registration failed or Email already exists')),
+        );
       }
     }
   }
@@ -139,7 +139,11 @@ class _RegisterViewState extends ConsumerState<RegisterPage> {
                       return Expanded(
                         child: RadioListTile<Gender>(
                           value: gender,
-                          title: Text(gender.name, overflow: TextOverflow.ellipsis, style: const TextStyle(fontSize: 14)),
+                          title: Text(
+                            gender.name,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(fontSize: 14),
+                          ),
                           contentPadding: EdgeInsets.zero,
                           dense: true,
                           visualDensity: VisualDensity.compact,
@@ -153,7 +157,11 @@ class _RegisterViewState extends ConsumerState<RegisterPage> {
                 if (registerState.isBusy)
                   const Center(child: CircularProgressIndicator())
                 else
-                  CustomButton(text: 'Register', onPressed: _handleRegister, isEnable: _isButtonEnabled),
+                  CustomButton(
+                    text: 'Register',
+                    onPressed: _handleRegister,
+                    isEnable: _isButtonEnabled,
+                  ),
                 const SizedBox(height: 24),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

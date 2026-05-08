@@ -6,14 +6,9 @@ import 'package:todo_list/domain/usecases/auth/register_usecase.dart';
 import 'package:todo_list/model/gender.dart';
 import 'package:todo_list/provider/base/base_state.dart';
 
-part 'register_provider.g.dart';
+part 'register.g.dart';
 
-typedef RegisterFormData = ({
-  String name,
-  String email,
-  String password,
-  Gender? gender,
-});
+typedef RegisterFormData = ({String name, String email, String password, Gender? gender});
 
 class RegisterState extends BaseState {
   const RegisterState({

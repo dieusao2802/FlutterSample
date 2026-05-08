@@ -3,7 +3,6 @@ import 'package:todo_list/data/local/datasource/user_local_datasource.dart';
 import 'package:todo_list/data/models/user_model.dart';
 import 'package:todo_list/domain/entities/user.dart';
 import 'package:todo_list/domain/repositories/i_auth_repository.dart';
-import 'package:todo_list/log/app_log.dart';
 
 class AuthRepositoryImpl implements IAuthRepository {
   final UserLocalDatasource _userDatasource;

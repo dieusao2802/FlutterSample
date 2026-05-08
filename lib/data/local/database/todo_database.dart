@@ -11,21 +11,22 @@ class DatabaseService {
   }
 
   Future<Database> _initDatabase() async {
-    // Đổi tên file thành app_v1.db để ép tạo mới hoàn toàn
-    String path = join(await getDatabasesPath(), 'app_v1.db');
+    String path = join(await getDatabasesPath(), 'app_v2.db');
     return await openDatabase(
       path,
       version: 1,
       onCreate: (db, version) async {
-        // Tạo bảng folders trước
         await db.execute('''
           CREATE TABLE folders(
             id TEXT PRIMARY KEY,
             name TEXT NOT NULL,
+            name_normalized TEXT NOT NULL,
             colorIndex INTEGER NOT NULL
           )
         ''');
-        // Sau đó tạo bảng todos có khóa ngoại trỏ tới folders
+        await db.execute('''
+          CREATE INDEX idx_folders_name_normalized ON folders(name_normalized)
+        ''');
         await db.execute('''
           CREATE TABLE todos(
             id TEXT PRIMARY KEY,

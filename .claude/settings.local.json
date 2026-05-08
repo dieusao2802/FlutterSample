@@ -14,7 +14,11 @@
       "mcp__figma__search_design_system",
       "Skill(update-config)",
       "Bash(grep \"\\\\.g\\\\.dart$\")",
-      "Bash(grep -E \"\\\\.\\(freezed|gr|config\\)\\\\.dart$\")"
+      "Bash(grep -E \"\\\\.\\(freezed|gr|config\\)\\\\.dart$\")",
+      "Bash(git mv *)",
+      "Bash(rm -f lib/provider/folder/folder_provider.g.dart)",
+      "Bash(mv lib/provider/folder/folder_provider.dart lib/provider/folder/folders_provider.dart)",
+      "Bash(dart run *)"
     ]
   }
 }

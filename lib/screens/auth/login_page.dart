@@ -6,8 +6,8 @@ import 'package:todo_list/core/utils/validation_utils.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
 
-import '../../provider/auth/login_provider.dart';
-import '../../provider/auth/register_provider.dart';
+import '../../provider/auth/login.dart';
+import '../../provider/auth/register.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});

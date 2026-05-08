@@ -4,16 +4,13 @@ import 'package:todo_list/core/enums/view_state.dart';
 import 'package:todo_list/domain/usecases/auth/forgot_password_usecase.dart';
 import 'package:todo_list/provider/base/base_state.dart';
 
-part 'forgot_provider.g.dart';
+part 'forgot_password.g.dart';
 
-class ForgotState extends BaseState {
-  const ForgotState({
-    super.viewState = ViewState.idle,
-    super.errorMessage = '',
-  });
+class ForgotPasswordState extends BaseState {
+  const ForgotPasswordState({super.viewState = ViewState.idle, super.errorMessage = ''});
 
-  ForgotState copyWith({ViewState? viewState, String? errorMessage}) {
-    return ForgotState(
+  ForgotPasswordState copyWith({ViewState? viewState, String? errorMessage}) {
+    return ForgotPasswordState(
       viewState: viewState ?? this.viewState,
       errorMessage: errorMessage ?? this.errorMessage,
     );
@@ -24,9 +21,9 @@ class ForgotState extends BaseState {
 }
 
 @riverpod
-class Forgot extends _$Forgot {
+class ForgotPassword extends _$ForgotPassword {
   @override
-  ForgotState build() => const ForgotState();
+  ForgotPasswordState build() => const ForgotPasswordState();
 
   Future<bool> sendResetNotification(String email) async {
     state = state.copyWith(viewState: ViewState.busy, errorMessage: '');

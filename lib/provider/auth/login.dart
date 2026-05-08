@@ -4,13 +4,10 @@ import 'package:todo_list/core/enums/view_state.dart';
 import 'package:todo_list/domain/usecases/auth/login_usecase.dart';
 import 'package:todo_list/provider/base/base_state.dart';
 
-part 'login_provider.g.dart';
+part 'login.g.dart';
 
 class LoginState extends BaseState {
-  const LoginState({
-    super.viewState = ViewState.idle,
-    super.errorMessage = '',
-  });
+  const LoginState({super.viewState = ViewState.idle, super.errorMessage = ''});
 
   LoginState copyWith({ViewState? viewState, String? errorMessage}) {
     return LoginState(

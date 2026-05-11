@@ -28,7 +28,7 @@ class JournalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.02),
+            color: Colors.black.withValues(alpha: 0.02),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -66,20 +66,14 @@ class JournalCard extends StatelessWidget {
                       const SizedBox(height: 5),
                       Text(
                         desc,
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Colors.grey.shade600,
-                          height: 1.4,
-                        ),
+                        style: TextStyle(fontSize: 12, color: Colors.grey.shade600, height: 1.4),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                       const SizedBox(height: 10),
                       Wrap(
                         spacing: 8,
-                        children: tags
-                            .map((tag) => _JournalTag(label: tag))
-                            .toList(),
+                        children: tags.map((tag) => _JournalTag(label: tag)).toList(),
                       ),
                     ],
                   ),
@@ -115,17 +109,10 @@ class _JournalTag extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppColors.primary,
-        borderRadius: BorderRadius.circular(20),
-      ),
+      decoration: BoxDecoration(color: AppColors.primary, borderRadius: BorderRadius.circular(20)),
       child: Text(
         label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontSize: 10,
-          fontWeight: FontWeight.w600,
-        ),
+        style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.w600),
       ),
     );
   }

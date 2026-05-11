@@ -24,14 +24,8 @@ class Folders extends _$Folders {
     await refresh();
   }
 
-  Future<void> updateFolderName(String id, String newName) async {
-    final currentFolders = state.value ?? [];
-    try {
-      final folder = currentFolders.firstWhere((f) => f.id == id);
-      await locator<FolderDbService>().updateFolder(folder.copyWith(name: newName));
-      await refresh();
-    } catch (e) {
-      // Folder not found or update failed
-    }
+  Future<void> updateFolder(Folder folder) async {
+    await locator<FolderDbService>().updateFolder(folder);
+    await refresh();
   }
 }

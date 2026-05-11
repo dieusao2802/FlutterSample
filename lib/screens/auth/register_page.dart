@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/utils/validation_utils.dart';
+import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/model/gender.dart';
 import 'package:todo_list/style/text_styles.dart';
 import 'package:todo_list/widgets/custom_button.dart';
@@ -130,6 +131,7 @@ class _RegisterViewState extends ConsumerState<RegisterPage> {
                 RadioGroup<Gender>(
                   groupValue: _selectedGender,
                   onChanged: (value) {
+                    AppLog.e("ldaldasl: " + value.toString());
                     setState(() {
                       _selectedGender = value;
                     });

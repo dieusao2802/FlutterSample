@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todo_list/core/enums/folder_color.dart';
 import 'package:todo_list/model/folder.dart';
 import 'package:todo_list/provider/folder/folders.dart';
 import 'folder_item.dart';
@@ -35,6 +36,9 @@ class FolderListView extends ConsumerWidget {
           onDelete: () {
             _showDeleteDialog(context, ref, folder);
           },
+          onTap: () {
+            // TODO: Mở folder
+          },
         );
       },
     );
@@ -42,28 +46,85 @@ class FolderListView extends ConsumerWidget {
 
   void _showEditDialog(BuildContext context, WidgetRef ref, Folder folder) {
     final controller = TextEditingController(text: folder.name);
+    var selectedColor = folder.color;
+
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Đổi tên Folder'),
-        content: TextField(
-          controller: controller,
-          decoration: const InputDecoration(hintText: "Nhập tên folder mới"),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('Hủy')),
-          TextButton(
-            onPressed: () {
-              final newName = controller.text.trim();
-              if (newName.isNotEmpty) {
-                ref.read(foldersProvider.notifier).updateFolderName(folder.id, newName);
-                Navigator.pop(context);
-              }
-            },
-            child: const Text('Cập nhật'),
+      builder: (context) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: const Text('Đổi tên Folder'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: controller,
+                decoration: const InputDecoration(hintText: "Nhập tên folder mới"),
+                autofocus: true,
+                onChanged: (data) {
+                  setDialogState(() {});
+                },
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                height: 45,
+                child: ListView.separated(
+                  itemCount: FolderColor.values.length,
+                  separatorBuilder: (context, index) => const SizedBox(width: 15),
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final folderColor = FolderColor.values[index];
+                    final isSelected = folderColor == selectedColor;
+                    return InkWell(
+                      onTap: () {
+                        setDialogState(() {
+                          selectedColor = folderColor;
+                        });
+                      },
+                      child: Container(
+                        height: 40,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          color: folderColor.color,
+                          shape: BoxShape.circle,
+                          boxShadow: isSelected
+                              ? [
+                                  BoxShadow(
+                                    color: folderColor.color.withValues(alpha: 0.4),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ]
+                              : null,
+                        ),
+                        child: isSelected
+                            ? const Icon(Icons.check, color: Colors.white, size: 20)
+                            : null,
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
-        ],
+          actions: [
+            TextButton(onPressed: () => Navigator.pop(context), child: const Text('Hủy')),
+            TextButton(
+              onPressed: controller.text.isNotEmpty
+                  ? () {
+                      final newName = controller.text.trim();
+                      if (newName.isNotEmpty) {
+                        ref
+                            .read(foldersProvider.notifier)
+                            .updateFolder(folder.copyWith(name: newName, color: selectedColor));
+                        Navigator.pop(context);
+                      }
+                    }
+                  : null,
+              child: const Text('Cập nhật'),
+              style: TextButton.styleFrom(disabledForegroundColor: Colors.grey),
+            ),
+          ],
+        ),
       ),
     );
   }

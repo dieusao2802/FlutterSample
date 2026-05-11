@@ -44,10 +44,7 @@ class _HomeDateSelectorState extends State<HomeDateSelector> {
                       const SizedBox(width: 10),
                       Text(
                         DateFormat('yyyy').format(selectedDate),
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.grey.shade600,
-                        ),
+                        style: TextStyle(fontSize: 16, color: Colors.grey.shade600),
                       ),
                       const Icon(Icons.keyboard_arrow_down, size: 20, color: Colors.grey),
                     ],
@@ -55,10 +52,7 @@ class _HomeDateSelectorState extends State<HomeDateSelector> {
                   const SizedBox(height: 4),
                   Text(
                     "7 Journals today",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey.shade500,
-                    ),
+                    style: TextStyle(fontSize: 14, color: Colors.grey.shade500),
                   ),
                 ],
               ),
@@ -94,10 +88,10 @@ class _HomeDateSelectorState extends State<HomeDateSelector> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: Colors.black.withValues(alpha: 0.03),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
-                      )
+                      ),
                     ],
                   ),
                   child: Column(

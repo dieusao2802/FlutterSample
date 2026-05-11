@@ -123,7 +123,7 @@ class _AddFolderPageState extends ConsumerState<AddFolderPage> {
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: folderColor.color.withOpacity(0.4),
+                    color: folderColor.color.withValues(alpha: 0.4),
                     blurRadius: 8,
                     offset: const Offset(0, 4),
                   ),

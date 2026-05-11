@@ -66,16 +66,4 @@ class AddJournal extends _$AddJournal {
   void updateTime(TimeOfDay time) {
     state = state.copyWith(selectedTime: time);
   }
-
-  Future<void> saveJournal() async {
-    state = state.copyWith(viewState: ViewState.busy);
-    try {
-      // Giả lập lưu dữ liệu
-      await Future.delayed(const Duration(seconds: 1));
-      state = state.copyWith(viewState: ViewState.idle);
-    } catch (e, stackTrace) {
-      AppLog.error('Failed to save journal', e, stackTrace);
-      state = state.copyWith(viewState: ViewState.error, errorMessage: e.toString());
-    }
-  }
 }

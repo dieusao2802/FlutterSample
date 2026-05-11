@@ -44,9 +44,9 @@ class AppLog {
 
   static String _getCallerInfo() {
     try {
-      final stackTrace = StackTrace.current.toString().split('\n');
-      if (stackTrace.length > 2) {
-        final line = stackTrace[2];
+      final lines = StackTrace.current.toString().split('\n');
+      for (final line in lines) {
+        if (line.contains('app_log.dart')) continue;
         final match = RegExp(r'#\d+\s+(.+)\s+\((.+)\)').firstMatch(line);
         if (match != null) {
           final methodName = match.group(1);

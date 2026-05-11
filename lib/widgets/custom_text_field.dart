@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/style/text_styles.dart';
 
+// TextField chuẩn của app — bao gồm label phía trên, ô input bo góc 12,
+// validator inline, và đổi viền theo trạng thái (default/focus/error).
+// Dùng cho mọi form input (Login, Register, Forgot password,...).
 class CustomTextField extends StatelessWidget {
-  final String label;
-  final String hint;
-  final bool isPassword;
-  final TextEditingController? controller;
-  final String? Function(String?)? validator;
-  final TextInputType? keyboardType; // Tương đương android:inputType
-  final TextInputAction? textInputAction; // Tương đương android:imeOptions
+  final String label; // Tiêu đề hiển thị phía trên ô input.
+  final String hint; // Placeholder khi ô input trống.
+  final bool isPassword; // true → che ký tự nhập (obscureText).
+  final TextEditingController? controller; // Controller để đọc/ghi giá trị từ bên ngoài.
+  final String? Function(String?)? validator; // Hàm validate — return null nếu hợp lệ, return message nếu lỗi.
+  final TextInputType? keyboardType; // Loại bàn phím (text, email, number,...). Tương đương android:inputType.
+  final TextInputAction? textInputAction; // Hành động nút bàn phím (next/done/...). Tương đương android:imeOptions.
 
   const CustomTextField({
     super.key,
@@ -18,8 +21,8 @@ class CustomTextField extends StatelessWidget {
     this.isPassword = false,
     this.controller,
     this.validator,
-    this.keyboardType, // Thêm cái này
-    this.textInputAction, // Thêm cái này
+    this.keyboardType,
+    this.textInputAction,
   });
 
   @override
@@ -27,6 +30,7 @@ class CustomTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        // Label in đậm phía trên ô input.
         Text(
           label,
           style: AppTextStyles.bodySmall.copyWith(
@@ -39,8 +43,9 @@ class CustomTextField extends StatelessWidget {
           controller: controller,
           obscureText: isPassword,
           validator: validator,
-          keyboardType: keyboardType, // Sử dụng ở đây
-          textInputAction: textInputAction, // Điều khiển nút 'Next' hoặc 'Done' trên bàn phím
+          keyboardType: keyboardType,
+          textInputAction: textInputAction,
+          // Validate ngay khi user tương tác → feedback tức thời, không cần submit.
           autovalidateMode: AutovalidateMode.onUserInteraction,
           decoration: InputDecoration(
             hintText: hint,
@@ -48,7 +53,8 @@ class CustomTextField extends StatelessWidget {
             filled: true,
             fillColor: AppColors.white,
             contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-            
+
+            // 5 border variants tương ứng các trạng thái khác nhau của TextFormField.
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: const BorderSide(color: AppColors.textSecondary, width: 1),

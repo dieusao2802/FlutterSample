@@ -1,6 +1,6 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_list/core/utils/string_utils.dart';
-import 'package:todo_list/data/local/database/todo_database.dart';
+import 'package:todo_list/data/local/database/journal_database.dart';
 import 'package:todo_list/model/folder.dart';
 
 class FolderDbService {
@@ -56,7 +56,7 @@ class FolderDbService {
 
   Future<void> deleteFolder(String id) async {
     final db = await _dbService.database;
-    await db.delete('todos', where: 'folderId = ?', whereArgs: [id]);
+    await db.delete('journals', where: 'folderId = ?', whereArgs: [id]);
     await db.delete('folders', where: 'id = ?', whereArgs: [id]);
   }
 }

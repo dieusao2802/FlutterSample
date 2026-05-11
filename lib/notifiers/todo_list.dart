@@ -1,19 +1,19 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../model/todo.dart';
+import '../model/journal.dart';
 
-class TodoListNotifier extends Notifier<List<Todo>> {
-  final Map<String, Todo> _items = {};
+class TodoListNotifier extends Notifier<List<Journal>> {
+  final Map<String, Journal> _items = {};
 
   @override
-  List<Todo> build() => [];
+  List<Journal> build() => [];
 
-  void add(Todo newItem) {
+  void add(Journal newItem) {
     _items[newItem.id] = newItem;
     state = _items.values.toList();
   }
 
-  void remove(Todo removedItem) {
+  void remove(Journal removedItem) {
     _items.remove(removedItem.id);
     state = _items.values.toList();
   }
@@ -32,4 +32,4 @@ class TodoListNotifier extends Notifier<List<Todo>> {
   }
 }
 
-final todoListProvider = NotifierProvider<TodoListNotifier, List<Todo>>(TodoListNotifier.new);
+final todoListProvider = NotifierProvider<TodoListNotifier, List<Journal>>(TodoListNotifier.new);

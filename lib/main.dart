@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       navigatorKey: GlobalNavigator.navigatorKey,
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Todo App',
+      title: 'Journal',
       theme: ThemeData(
         primaryColor: AppColors.primary,
         colorScheme: ColorScheme.fromSeed(

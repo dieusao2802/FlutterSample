@@ -11,9 +11,10 @@ class TodolistWgt extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // Watch toàn bộ list — widget này rebuild khi length list thay đổi (thêm/xoá item).
     final todoList = ref.watch(todoListProvider);
     return ListView.builder(
-      itemCount: todoList.length,
+      itemCount: todoList.length, // Số item = độ dài list.
       itemBuilder: (context, index) {
         // Truyền id thay vì cả object để tối ưu rebuild theo pattern "id-based subscription".
         return TodoListItemWdt(id: todoList[index].id);

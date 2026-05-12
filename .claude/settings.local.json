@@ -18,7 +18,8 @@
       "Bash(git mv *)",
       "Bash(rm -f lib/provider/folder/folder_provider.g.dart)",
       "Bash(mv lib/provider/folder/folder_provider.dart lib/provider/folder/folders_provider.dart)",
-      "Bash(dart run *)"
+      "Bash(dart run *)",
+      "Bash(flutter build *)"
     ]
   }
 }

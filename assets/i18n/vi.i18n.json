@@ -1,0 +1,29 @@
+{
+  "common": {
+    "ok": "Đồng ý",
+    "cancel": "Hủy",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "retry": "Thử lại",
+    "addd": "Thêm mới"
+  },
+  "auth": {
+    "login": {
+      "title": "Đăng nhập",
+      "subtitle": "Đăng nhập để tiếp tục",
+      "emailLabel": "Email",
+      "emailHint": "Nhập email của bạn",
+      "passwordLabel": "Mật khẩu",
+      "passwordHint": "Nhập mật khẩu của bạn",
+      "forgotPassword": "Quên mật khẩu?",
+      "loginButton": "Đăng nhập",
+      "noAccount": "Bạn chưa có tài khoản?",
+      "register": "Đăng ký",
+      "loginWithoutAccount": "Đăng nhập không cần tài khoản"
+    }
+  },
+  "errors": {
+    "network": "Lỗi kết nối mạng",
+    "unknown": "Đã có lỗi xảy ra"
+  }
+}

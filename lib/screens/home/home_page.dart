@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/routes/app_routes.dart';
+import 'package:todo_list/gen/strings.g.dart';
 import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/provider/home/home.dart';
 import 'package:todo_list/screens/home/widgets/home_app_bar.dart';

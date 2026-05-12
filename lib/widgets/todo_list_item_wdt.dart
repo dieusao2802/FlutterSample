@@ -13,13 +13,14 @@ class TodoListItemWdt extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('rebuilding ToDo List Item: $id');
+    debugPrint('rebuilding ToDo List Item: $id'); // Log để debug khi rebuild — bỏ ở production.
 
     return Row(
+      // Dàn 2 sub-widget cách đều: lề ngoài + giữa đều bằng nhau.
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        TodoListItemDisplay(id: id),
-        TodoListItemToggleButton(id: id),
+        TodoListItemDisplay(id: id), // Sub-widget hiển thị text.
+        TodoListItemToggleButton(id: id), // Sub-widget button toggle.
       ],
     );
   }

@@ -1,0 +1,88 @@
+# Cấu hình slang - thư viện generate code đa ngôn ngữ (i18n)
+# Docs: https://pub.dev/packages/slang
+
+# --- Locale ---
+base_locale: vi
+# Locale gốc của app (ngôn ngữ mặc định/fallback cuối cùng)
+
+fallback_strategy: base_locale
+# Nếu locale khác thiếu key translation
+# -> tự động dùng translation của base_locale
+
+
+# --- Input / Output ---
+input_directory: assets/i18n
+# Thư mục chứa các file translation nguồn
+
+input_file_pattern: .i18n.json
+# Chỉ đọc các file có đuôi:
+# *.i18n.json
+#
+# Ví dụ:
+# - strings_vi.i18n.json
+# - strings_en.i18n.json
+
+output_directory: lib/gen
+# Thư mục chứa file Dart được generate
+
+output_file_name: strings.g.dart
+# Tên file Dart output được generate bởi slang
+
+
+# --- Tích hợp Flutter ---
+locale_handling: true
+# Bật API quản lý locale:
+# - đổi ngôn ngữ
+# - detect device locale
+# - lấy locale hiện tại
+
+flutter_integration: true
+# Generate code tích hợp Flutter:
+# - context.t
+# - localization delegates
+# - BuildContext extension
+
+namespaces: false
+# false = gộp tất cả translation vào 1 class
+#
+# Ví dụ:
+# t.home.title
+
+
+# --- Naming & format ---
+translate_var: t
+# Biến dùng để truy cập translation
+#
+# Ví dụ:
+# t.home.title
+
+enum_name: AppLocale
+# Tên enum chứa danh sách locale
+#
+# Ví dụ:
+# AppLocale.vi
+# AppLocale.en
+
+class_name: Translations
+# Tên class chứa toàn bộ translation
+
+translation_class_visibility: public
+# Visibility của class translation:
+# - public
+# - private
+
+key_case: camel
+# Convert JSON key -> camelCase trong Dart
+#
+# Ví dụ:
+# "home_title"
+# -> t.homeTitle
+
+string_interpolation: double_braces
+# Cú pháp interpolation:
+#
+# JSON:
+# "hello": "Hello {{name}}"
+#
+# Dart:
+# t.hello(name: 'John')

@@ -1,0 +1,29 @@
+{
+  "common": {
+    "ok": "OK",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "retry": "Retry",
+    "add": "Add"
+  },
+  "auth": {
+    "login": {
+      "title": "Login",
+      "subtitle": "Sign in to continue",
+      "emailLabel": "Email",
+      "emailHint": "Enter your email",
+      "passwordLabel": "Password",
+      "passwordHint": "Enter your password",
+      "forgotPassword": "Forgot Password?",
+      "loginButton": "Login",
+      "noAccount": "Don't have an account?",
+      "register": "Register",
+      "loginWithoutAccount": "Login without Account"
+    }
+  },
+  "errors": {
+    "network": "Network connection error",
+    "unknown": "Something went wrong"
+  }
+}

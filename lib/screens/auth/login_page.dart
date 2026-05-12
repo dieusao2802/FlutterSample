@@ -3,11 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/core/utils/validation_utils.dart';
+import 'package:todo_list/gen/strings.g.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
 
 import '../../provider/auth/login.dart';
 import '../../provider/auth/register.dart';
+import '../../provider/locale/locale.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -58,22 +60,26 @@ class _LoginViewState extends ConsumerState<LoginPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const SizedBox(height: 60),
-                const Text('Login', style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: _LanguageToggle(currentCode: ref.watch(localeControllerProvider)),
+                ),
+                const SizedBox(height: 32),
+                Text(t.auth.login.title, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
                 const SizedBox(height: 8),
-                const Text('Sign in to continue', style: TextStyle(color: AppColors.textSecondary)),
+                Text(t.auth.login.subtitle, style: const TextStyle(color: AppColors.textSecondary)),
                 const SizedBox(height: 48),
                 CustomTextField(
-                  label: 'Email',
-                  hint: 'Enter your email',
+                  label: t.auth.login.emailLabel,
+                  hint: t.auth.login.emailHint,
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   validator: ValidationUtils.validateEmail,
                 ),
                 const SizedBox(height: 20),
                 CustomTextField(
-                  label: 'Password',
-                  hint: 'Enter your password',
+                  label: t.auth.login.passwordLabel,
+                  hint: t.auth.login.passwordHint,
                   isPassword: true,
                   controller: _passwordController,
                   validator: ValidationUtils.validatePassword,
@@ -82,9 +88,9 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                   alignment: Alignment.centerRight,
                   child: TextButton(
                     onPressed: () => Navigator.pushNamed(context, AppRoutes.forgotPassword),
-                    child: const Text(
-                      'Forgot Password?',
-                      style: TextStyle(color: AppColors.primary),
+                    child: Text(
+                      t.auth.login.forgotPassword,
+                      style: const TextStyle(color: AppColors.primary),
                     ),
                   ),
                 ),
@@ -98,7 +104,7 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                     ),
                   ),
                 CustomButton(
-                  text: 'Login',
+                  text: t.auth.login.loginButton,
                   isLoading: loginState.isBusy,
                   isEnable: _isButtonEnabled,
                   onPressed: () async {
@@ -116,7 +122,7 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Don't have an account?"),
+                    Text(t.auth.login.noAccount),
                     TextButton(
                       onPressed: () async {
                         await Navigator.pushNamed(context, AppRoutes.register);
@@ -127,28 +133,77 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                           _passwordController.text = registeredData.password;
                         }
                       },
-                      child: const Text(
-                        'Register',
-                        style: TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                      child: Text(
+                        t.auth.login.register,
+                        style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 8),
+                const SizedBox(height: 8),
                 Center(
                   child: InkWell(
                     onTap: () => Navigator.pushNamed(context, AppRoutes.home),
-                    child: const Text(
-                      'Login without Account',
-                      style: TextStyle(
+                    child: Text(
+                      t.auth.login.loginWithoutAccount,
+                      style: const TextStyle(
                         color: AppColors.primary,
                         decoration: TextDecoration.underline,
+                        decorationColor: AppColors.primary,
                       ),
                     ),
                   ),
                 ),
               ],
             ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _LanguageToggle extends ConsumerWidget {
+  final String currentCode;
+
+  const _LanguageToggle({required this.currentCode});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _buildItem(ref, AppLocale.vi, 'VI'),
+          _buildItem(ref, AppLocale.en, 'EN'),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildItem(WidgetRef ref, AppLocale locale, String label) {
+    final isActive = currentCode == locale.languageCode;
+    return InkWell(
+      borderRadius: BorderRadius.circular(20),
+      onTap: isActive
+          ? null
+          : () => ref.read(localeControllerProvider.notifier).setLocale(locale),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+        decoration: BoxDecoration(
+          color: isActive ? AppColors.primary : Colors.transparent,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Text(
+          label,
+          style: TextStyle(
+            color: isActive ? Colors.white : AppColors.textSecondary,
+            fontWeight: FontWeight.bold,
+            fontSize: 12,
           ),
         ),
       ),

@@ -37,6 +37,13 @@ dependencies:
 
   #--- UI Splash ---
   flutter_native_splash: ^2.4.7
+  image_picker: ^1.2.2
+
+  # --- I18N ---
+  slang: ^4.14.0
+  slang_flutter: ^4.14.0
+  flutter_localizations:
+    sdk: flutter
 
 dev_dependencies:
   flutter_test:
@@ -48,6 +55,15 @@ dev_dependencies:
   riverpod_generator: ^4.0.2
   pigeon: ^26.3.2
   json_serializable: ^6.11.0
+  flutter_gen_runner: ^5.14.1
+  slang_build_runner: ^4.14.0
+
+# --- FLUTTER_GEN CONFIG ---
+flutter_gen:
+  output: lib/gen/
+  line_length: 80
+  assets:
+    enabled: true
 
 flutter_native_splash:
   color: "#4CAF50"
@@ -63,3 +79,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+    - assets/i18n/

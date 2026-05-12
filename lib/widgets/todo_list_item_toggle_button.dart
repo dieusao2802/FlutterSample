@@ -6,7 +6,7 @@ import '../notifiers/todo_list.dart';
 // Sub-widget chứa button toggle done của 1 todo.
 // Màu nền của button đổi theo trạng thái done (xanh = đã xong, đỏ = chưa).
 class TodoListItemToggleButton extends ConsumerWidget {
-  final String id;
+  final String id; // Id của todo cần toggle.
 
   const TodoListItemToggleButton({super.key, required this.id});
 
@@ -22,15 +22,17 @@ class TodoListItemToggleButton extends ConsumerWidget {
 
     return ElevatedButton(
       onPressed: () {
-        // Gọi notifier để toggle field done trong record, state mới sẽ trigger rebuild các widget watching.
+        // Gọi notifier để toggle field done trong record.
+        // State mới sẽ trigger rebuild các widget đang watching.
         ref.read(todoListProvider.notifier).toggleTodo(id);
       },
       style: ElevatedButton.styleFrom(
+        // Done = xanh (đã hoàn thành), chưa done = đỏ (cần làm).
         backgroundColor: todo.done ? Colors.blue : Colors.red,
       ),
       child: const Icon(
-        Icons.refresh,
-        color: Colors.white70,
+        Icons.refresh, // Icon refresh ngụ ý "đổi trạng thái".
+        color: Colors.white70, // Trắng 70% opacity — nhẹ hơn pure white.
       ),
     );
   }

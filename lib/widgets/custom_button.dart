@@ -23,21 +23,30 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.infinity,
-      height: 50,
+      width: double.infinity, // Chiếm trọn chiều ngang của parent.
+      height: 50, // Chiều cao cố định 50px theo chuẩn touch target.
       child: ElevatedButton(
-        // Disable click khi đang loading hoặc bị tắt — gán onPressed=null để Flutter render style disabled.
+        // Disable click khi đang loading hoặc bị tắt — gán onPressed=null để Flutter tự render style disabled.
         onPressed: isLoading || !isEnable ? null : onPressed,
         style: ElevatedButton.styleFrom(
-          // Khi disabled: dùng cùng màu nhưng giảm alpha xuống 64/255 để trông mờ.
+          // Khi enabled: dùng color truyền vào hoặc primary mặc định.
+          // Khi disabled: cùng màu nhưng giảm alpha xuống 64/255 (~25%) để trông mờ.
           backgroundColor: isEnable
               ? (color ?? AppColors.primary)
               : (color ?? AppColors.primary).withAlpha(64),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12), // Bo 4 góc 12px cho nút mềm mại.
+          ),
         ),
+        // Loading state → spinner trắng. Bình thường → text.
         child: isLoading
-            ? const CircularProgressIndicator(color: Colors.white)
-            : Text(text, style: AppTextStyles.button),
+            ? const CircularProgressIndicator(
+                color: Colors.white, // Spinner trắng để đối lập với nền primary.
+              )
+            : Text(
+                text,
+                style: AppTextStyles.button, // Dùng style chuẩn cho button text.
+              ),
       ),
     );
   }

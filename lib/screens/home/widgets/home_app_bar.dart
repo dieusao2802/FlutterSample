@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/core/routes/app_routes.dart';
 
 // App bar cho màn hình Home — layout: [menu] [tiêu đề] [search].
 // Hiện tại các icon menu/search chỉ là decorative (chưa wire callback).
@@ -12,17 +13,21 @@ class HomeAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween, // 3 phần tử cách đều, sát 2 mép.
         children: [
-          // Icon menu bên trái — placeholder cho drawer/sidebar trong tương lai.
-          Container(
-            padding: const EdgeInsets.all(8), // Padding đều 8px quanh icon.
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.grey.shade200), // Viền xám rất nhạt.
-              borderRadius: BorderRadius.circular(10), // Bo 10px.
-            ),
-            child: const Icon(
-              Icons.menu_rounded, // Icon ☰ (rounded).
-              size: 24,
-              color: Colors.black87, // Đen 87% opacity.
+          // Tạm dùng icon menu làm entry mở màn hình Demo Resources.
+          GestureDetector(
+            onTap: () =>
+                Navigator.pushNamed(context, AppRoutes.demoResources),
+            child: Container(
+              padding: const EdgeInsets.all(8), // Padding đều 8px quanh icon.
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey.shade200), // Viền xám rất nhạt.
+                borderRadius: BorderRadius.circular(10), // Bo 10px.
+              ),
+              child: const Icon(
+                Icons.menu_rounded, // Icon ☰ (rounded).
+                size: 24,
+                color: Colors.black87, // Đen 87% opacity.
+              ),
             ),
           ),
           // Tiêu đề app hardcode ở giữa.

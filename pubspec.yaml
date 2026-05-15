@@ -45,16 +45,22 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  # --- FONTS / SVG / MEDIA (demo resources) ---
+  flutter_svg: ^2.3.0
+  audioplayers: ^6.6.0
+  video_player: ^2.11.1
+  chewie: ^1.14.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
 
   # --- CODE GENERATION ---
-  build_runner: ^2.4.15
-  riverpod_generator: ^4.0.2
+  build_runner: ^2.15.0
+  riverpod_generator: ^4.0.3
   pigeon: ^26.3.2
-  json_serializable: ^6.11.0
+  json_serializable: ^6.13.0
   flutter_gen_runner: ^5.14.1
   slang_build_runner: ^4.14.0
 
@@ -64,6 +70,10 @@ flutter_gen:
   line_length: 80
   assets:
     enabled: true
+  fonts:
+    enabled: true
+  integrations:
+    flutter_svg: true  # bật cho SVG (cần package flutter_svg — đã có)
 
 flutter_native_splash:
   color: "#4CAF50"
@@ -80,3 +90,16 @@ flutter:
   assets:
     - assets/images/
     - assets/i18n/
+    - assets/svg/
+
+  fonts:
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Poppins-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Poppins-Bold.ttf
+          weight: 700

@@ -6,8 +6,9 @@ import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/di/service_locator.dart';
 import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/core/navigation/global_navigator.dart';
-import 'package:todo_list/gen/strings.g.dart';
 import 'package:todo_list/provider/locale/locale.dart';
+
+import 'gen/strings.g.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

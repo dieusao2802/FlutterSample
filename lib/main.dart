@@ -4,8 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
 import 'package:todo_list/core/di/service_locator.dart';
-import 'package:todo_list/core/routes/app_routes.dart';
-import 'package:todo_list/core/navigation/global_navigator.dart';
+import 'package:todo_list/core/routes/app_router.dart';
 import 'package:todo_list/provider/locale/locale.dart';
 
 import 'gen/strings.g.dart';
@@ -28,23 +27,22 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Watch để rebuild MaterialApp khi user đổi ngôn ngữ
-    // (không cần dùng value, chỉ cần subscribe thay đổi)
     ref.watch(localeControllerProvider);
 
-    return MaterialApp(
-      // --- Navigation ---
-      navigatorKey: GlobalNavigator.navigatorKey,
-      // Key dùng cho navigate ngoài context
+    // Lấy instance của AutoRouter từ Provider
+    final appRouter = ref.watch(appRouterProvider);
+
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
       title: 'Journal',
 
+      // --- Navigation (AutoRouter) ---
+      routerConfig: appRouter.config(),
+
       // --- i18n (slang) ---
       locale: TranslationProvider.of(context).flutterLocale,
-      // Locale hiện tại từ slang
       supportedLocales: AppLocaleUtils.supportedLocales,
-      // Danh sách locale slang sinh ra
       localizationsDelegates: const [
-        // Delegate dịch sẵn cho widget built-in (Material/Cupertino/Widgets)
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -62,11 +60,6 @@ class MyApp extends ConsumerWidget {
         scaffoldBackgroundColor: AppColors.background,
         useMaterial3: true,
       ),
-
-      // --- Routes ---
-      initialRoute: AppRoutes.splash,
-      // Route khởi động
-      routes: AppRoutes.routes, // Map route name -> builder
     );
   }
 }

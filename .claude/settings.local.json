@@ -25,7 +25,8 @@
       "Bash(curl -L -o Poppins-Regular.ttf \"https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Regular.ttf\")",
       "Bash(curl -L -o Poppins-Medium.ttf \"https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Medium.ttf\")",
       "Bash(curl -L -o Poppins-SemiBold.ttf \"https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-SemiBold.ttf\")",
-      "Bash(curl -L -o Poppins-Bold.ttf \"https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf\")"
+      "Bash(curl -L -o Poppins-Bold.ttf \"https://github.com/google/fonts/raw/main/ofl/poppins/Poppins-Bold.ttf\")",
+      "Bash(xargs grep *)"
     ]
   }
 }

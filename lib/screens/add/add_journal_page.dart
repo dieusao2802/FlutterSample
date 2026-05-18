@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/provider/journal/add_journal.dart';
@@ -7,6 +8,7 @@ import 'widgets/add_journal_folder_selector.dart';
 import 'widgets/add_journal_images.dart';
 import 'widgets/add_journal_toolbar.dart';
 
+@RoutePage()
 class AddJournalPage extends ConsumerStatefulWidget {
   const AddJournalPage({super.key});
 

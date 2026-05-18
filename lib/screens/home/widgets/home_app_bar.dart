@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_list/core/routes/app_routes.dart';
+
+import 'package:todo_list/core/routes/app_router.gr.dart';
 
 // App bar cho màn hình Home — layout: [menu] [tiêu đề] [search].
 // Hiện tại các icon menu/search chỉ là decorative (chưa wire callback).
@@ -15,8 +17,7 @@ class HomeAppBar extends StatelessWidget {
         children: [
           // Tạm dùng icon menu làm entry mở màn hình Demo Resources.
           GestureDetector(
-            onTap: () =>
-                Navigator.pushNamed(context, AppRoutes.demoResources),
+            onTap: () => context.router.push(const DemoResourcesRoute()),
             child: Container(
               padding: const EdgeInsets.all(8), // Padding đều 8px quanh icon.
               decoration: BoxDecoration(
@@ -33,11 +34,7 @@ class HomeAppBar extends StatelessWidget {
           // Tiêu đề app hardcode ở giữa.
           const Text(
             "Pronto Journals",
-            style: TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Color(0xFF1E1E1E),
-            ),
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xFF1E1E1E)),
           ),
           // Icon search bên phải — chưa wire onPressed (sẽ cần mở màn search sau).
           Container(

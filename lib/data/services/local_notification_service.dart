@@ -1,6 +1,5 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:todo_list/core/navigation/global_navigator.dart';
-import 'package:todo_list/core/routes/app_routes.dart';
 import 'package:todo_list/domain/services/i_notification_service.dart';
 
 class LocalNotificationService implements INotificationService {
@@ -21,14 +20,13 @@ class LocalNotificationService implements INotificationService {
     );
   }
 
+  /// Payload notification được dùng như **deep link path** (vd: `/login`,
+  /// `/task/123`). Khi user tap, dùng [GoRouter] để điều hướng — tự đi qua
+  /// redirect logic (auth guard...) giống mọi navigation thông thường.
   void _onNotificationResponse(NotificationResponse response) {
-    if (response.payload != null) {
-      // Ví dụ: Điều hướng về màn hình login khi nhấn vào thông báo quên mật khẩu
-      GlobalNavigator.navigatorKey.currentState?.pushNamed(
-        AppRoutes.login,
-        arguments: response.payload,
-      );
-    }
+    final payload = response.payload;
+    if (payload == null || payload.isEmpty) return;
+    GlobalNavigator.router?.pushPath(payload);
   }
 
   @override
@@ -47,7 +45,7 @@ class LocalNotificationService implements INotificationService {
       title: title,
       body: body,
       notificationDetails: details,
-      payload: 'forgot_password_data',
+      payload: '/login',
     );
   }
 }

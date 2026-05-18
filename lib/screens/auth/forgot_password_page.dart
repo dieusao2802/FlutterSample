@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
@@ -8,6 +9,7 @@ import 'package:todo_list/widgets/custom_text_field.dart';
 
 import '../../core/utils/validation_utils.dart';
 
+@RoutePage()
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
 

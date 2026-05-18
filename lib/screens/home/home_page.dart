@@ -1,7 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
-import 'package:todo_list/core/routes/app_routes.dart';
+
 import 'package:todo_list/gen/strings.g.dart';
 import 'package:todo_list/log/app_log.dart';
 import 'package:todo_list/provider/home/home.dart';
@@ -11,6 +12,9 @@ import 'package:todo_list/screens/home/widgets/home_date_selector.dart';
 import 'package:todo_list/screens/home/widgets/home_task_list.dart';
 import 'package:todo_list/screens/folder/folder_page.dart';
 
+import 'package:todo_list/core/routes/app_router.gr.dart';
+
+@RoutePage()
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
@@ -35,9 +39,9 @@ class HomePage extends ConsumerWidget {
             : FloatingActionButton(
                 onPressed: () {
                   if (currentIndex == 0) {
-                    Navigator.pushNamed(context, AppRoutes.addTask);
+                    context.router.push(const AddJournalRoute());
                   } else {
-                    Navigator.pushNamed(context, AppRoutes.addFolder);
+                    context.router.push(const AddFolderRoute());
                   }
                 },
                 backgroundColor: AppColors.primary,

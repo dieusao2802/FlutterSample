@@ -1,16 +1,20 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:todo_list/core/constants/app_colors.dart';
-import 'package:todo_list/core/routes/app_routes.dart';
+
 import 'package:todo_list/core/utils/validation_utils.dart';
 import 'package:todo_list/gen/strings.g.dart';
 import 'package:todo_list/widgets/custom_button.dart';
 import 'package:todo_list/widgets/custom_text_field.dart';
 
+import 'package:todo_list/core/routes/app_router.gr.dart';
+import '../../provider/auth/auth_status.dart';
 import '../../provider/auth/login.dart';
 import '../../provider/auth/register.dart';
 import '../../provider/locale/locale.dart';
 
+@RoutePage()
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -65,7 +69,10 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                   child: _LanguageToggle(currentCode: ref.watch(localeControllerProvider)),
                 ),
                 const SizedBox(height: 32),
-                Text(t.auth.login.title, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+                Text(
+                  t.auth.login.title,
+                  style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                ),
                 const SizedBox(height: 8),
                 Text(t.auth.login.subtitle, style: const TextStyle(color: AppColors.textSecondary)),
                 const SizedBox(height: 48),
@@ -87,7 +94,7 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                 Align(
                   alignment: Alignment.centerRight,
                   child: TextButton(
-                    onPressed: () => Navigator.pushNamed(context, AppRoutes.forgotPassword),
+                    onPressed: () => context.router.push(const ForgotPasswordRoute()),
                     child: Text(
                       t.auth.login.forgotPassword,
                       style: const TextStyle(color: AppColors.primary),
@@ -113,7 +120,9 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                           .read(loginProvider.notifier)
                           .login(_emailController.text, _passwordController.text);
                       if (success && context.mounted) {
-                        Navigator.pushReplacementNamed(context, AppRoutes.home);
+                        // Navigate to home after login
+                        context.router.replace(const HomeRoute());
+                        ref.read(authProvider.notifier).setAuthenticated();
                       }
                     }
                   },
@@ -125,7 +134,7 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                     Text(t.auth.login.noAccount),
                     TextButton(
                       onPressed: () async {
-                        await Navigator.pushNamed(context, AppRoutes.register);
+                        await context.router.push(const RegisterRoute());
                         if (!context.mounted) return;
                         final registeredData = ref.read(registerProvider).registeredData;
                         if (registeredData != null) {
@@ -135,7 +144,10 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                       },
                       child: Text(
                         t.auth.login.register,
-                        style: const TextStyle(color: AppColors.primary, fontWeight: FontWeight.bold),
+                        style: const TextStyle(
+                          color: AppColors.primary,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ],
@@ -143,7 +155,12 @@ class _LoginViewState extends ConsumerState<LoginPage> {
                 const SizedBox(height: 8),
                 Center(
                   child: InkWell(
-                    onTap: () => Navigator.pushNamed(context, AppRoutes.home),
+                    // "Login without account" — coi như guest đã đăng nhập để
+                    // redirect cho phép vào /home.
+                    onTap: () {
+                      ref.read(authProvider.notifier).setAuthenticated();
+                      context.router.replace(const HomeRoute());
+                    },
                     child: Text(
                       t.auth.login.loginWithoutAccount,
                       style: const TextStyle(
@@ -177,10 +194,7 @@ class _LanguageToggle extends ConsumerWidget {
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
-        children: [
-          _buildItem(ref, AppLocale.vi, 'VI'),
-          _buildItem(ref, AppLocale.en, 'EN'),
-        ],
+        children: [_buildItem(ref, AppLocale.vi, 'VI'), _buildItem(ref, AppLocale.en, 'EN')],
       ),
     );
   }
@@ -189,9 +203,7 @@ class _LanguageToggle extends ConsumerWidget {
     final isActive = currentCode == locale.languageCode;
     return InkWell(
       borderRadius: BorderRadius.circular(20),
-      onTap: isActive
-          ? null
-          : () => ref.read(localeControllerProvider.notifier).setLocale(locale),
+      onTap: isActive ? null : () => ref.read(localeControllerProvider.notifier).setLocale(locale),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
         decoration: BoxDecoration(

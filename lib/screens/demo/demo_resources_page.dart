@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -9,6 +10,7 @@ import 'package:video_player/video_player.dart';
 import '../../gen/fonts.gen.dart';
 
 // Màn hình demo các loại resource: Font, SVG, Audio, Video.
+@RoutePage()
 class DemoResourcesPage extends StatefulWidget {
   const DemoResourcesPage({super.key});
 
